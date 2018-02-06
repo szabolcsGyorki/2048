@@ -20,12 +20,13 @@ def clear_board():
             board[i][j] = ""
     return board
 
-def new_game():
+def random_tile(n):
 
     # Start a new game with two initial random numbers which are either 2 or 4.
-    global game_end
-    game_end = ""
-    for i in range(2):
+    #global game_end
+    #game_end = ""
+    rand_n = 0
+    while True:
         b_row=random.randrange(4)
         b_col=random.randrange(4)
         if board[b_row][b_col]=="":
@@ -34,22 +35,26 @@ def new_game():
                 board[b_row][b_col] = 2
             else:
                 board[b_row][b_col] = 4
-    print_board()
+            rand_n += 1
+        if rand_n == n:
+            print_board()
+            break
+            
 
 
-def win():
+def win(tile_n):
 
-    #The function checks if 256 is in the table, if it is, it sets the game conditions to end the game as a winner.
+    #The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
     board_temp = []
     win_board = []
     for i in range(len(board)):
         board_temp = board[i][:]
         win_board[i:i]= board_temp
-    if 256 in win_board:
+    if tile_n in win_board:
         global game_end
         game_end = "win"
-        return 256 in win_board
-    return 256 not in win_board
+        return tile_n in win_board
+    return tile_n not in win_board
 
 def board_full():
 
@@ -82,14 +87,14 @@ def no_more_steps():
                 return rvar
     return rvar
 
-def game_state():
+def game_state(n):
 
     #Sets the game condition to "lose" or "win" depending on the given criteria. 
     if board_full() == True and no_more_steps() == True:
         global game_end
         game_end = "lose"
         return
-    if win() == False:
+    if win(n) == False:
         game_end = "win"
         return
     
@@ -98,7 +103,9 @@ def game_state():
 def game_logic():
 
     #The main script which does the moving and merging of the tiles according to the direction what the player entered. 
-    ask=input("Enter direction: ")
+    print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
+    print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
+    ask=input("Enter direction:\n")
     if ask=="w":
         for i in range(4):
             b_col = i
@@ -118,6 +125,7 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row+1][b_col] = board[b_row+1][b_col], board[b_row][b_col]
+        random_tile(1)
 
     if ask=="s":
         for i in range(4):
@@ -138,6 +146,8 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
+        random_tile(1)
+
 
     if ask=="a":
         for i in range(4):
@@ -158,6 +168,8 @@ def game_logic():
                 b_col = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col+1] = board[b_row][b_col+1], board[b_row][b_col]
+        random_tile(1)
+
 
     if ask=="d":
         for i in range(4):
@@ -178,45 +190,50 @@ def game_logic():
                 b_col = j*-1
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
-        
-    while True:
-        b_row=random.randrange(4)
-        b_col=random.randrange(4)
-        if board[b_row][b_col]=="":
-            x=random.randrange(5)
-            if x < 4:
-                board[b_row][b_col] = 2
-            else:
-                board[b_row][b_col] = 4
-            print_board()
-            break
-    if ask=="x":
+        random_tile(1)
+
+    if ask == "x":
         exit()
+
+    if ask == "n":
+        clear_board()
+        random_tile(2)
+        print_board()
+
+
+    else:
+        pass
 
 
 def game():
 
     # Main game loop.
     os.system('clear')
-    game = True
-    while game == True:
-        print('1. Please enter m for start, or x for exit')
-        start = input()
-        if start == 'x':
-            game = False
-            exit()
-        if start == 'm':
-            clear_board()
-            new_game()
+    while True:
+        clear_board()
+        random_tile(2)
+        print_board()
         while game_end == "":
             game_logic()
-            game_state()
-        while game_end == "win":
-            print("You have won 256! Congratulations!")
-            break
+            game_state(16)
+            if game_end == "win":
+                print("You have won 2048! Congratulations!")
+                ask = input("Do you want to continue? [y/n]")
+                if ask == "y":
+                    global game_end
+                    game_end = "continue"
+                else:
+                    exit()
+        while game_end == "continue":
+            game_logic()
+            game_state(999)
         while game_end == "lose":
             print("You lost...")
-            break
+            ask = input("Do you wish to start a new game? [y/n] ")
+            if ask == "y":
+                break
+            else:
+                exit()
 
 
 board=[["","","",""],
@@ -226,6 +243,23 @@ board=[["","","",""],
         ]   
 
 game_end = ""
-b_row=0
-b_col=0
-game()
+#b_row=0
+#b_col=0
+print("""
+        Welcome to the game '2048'!
+
+        The goal of the game is to join the numbers and get the tile 2048.
+        Controls:
+        w - move the tiles up
+        s - move the tiles down
+        a - move the tiles left
+        d - move the tiles right
+        
+        x - quit the game
+        """
+        )
+start = input('Please enter "s" for start, or "x" for exit:\n')
+if start == 'x':
+    exit()
+if start == 's':
+    game()
