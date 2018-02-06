@@ -101,7 +101,7 @@ def game_state(n):
 
         
 def game_logic():
-
+    score_ = 0
     #The main script which does the moving and merging of the tiles according to the direction what the player entered. 
     print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
     print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
@@ -120,6 +120,9 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col]==board[b_row+1][b_col]:
                     board[b_row][b_col]*=2
+                    if type(board[b_row][b_col]) is int:
+                        score_ += board[b_row][b_col]
+                        print(score_)
                     board[b_row+1][b_col]=""
             for j in range(3):
                 b_row = j
@@ -141,6 +144,9 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col]==board[b_row-1][b_col]:
                     board[b_row][b_col]*=2
+                    if type(board[b_row][b_col]) is int:
+                        score_ += board[b_row][b_col]
+                        print(score_)
                     board[b_row-1][b_col]=""
             for j in range(1,4):
                 b_row = j
@@ -163,6 +169,9 @@ def game_logic():
                 b_col = j
                 if board[b_row][b_col]==board[b_row][b_col+1]:
                     board[b_row][b_col]*=2
+                    if type(board[b_row][b_col]) is int:
+                        score_ += board[b_row][b_col]
+                        print(score_)
                     board[b_row][b_col+1]=""
             for j in range(3):
                 b_col = j
@@ -185,6 +194,9 @@ def game_logic():
                 b_col = j*-1
                 if board[b_row][b_col]==board[b_row][b_col-1]:
                     board[b_row][b_col]*=2
+                    if type(board[b_row][b_col]) is int:
+                        score_ += board[b_row][b_col]
+                        print(score_)
                     board[b_row][b_col-1]=""
             for j in range(1,4):
                 b_col = j*-1
@@ -200,22 +212,22 @@ def game_logic():
         random_tile(2)
         print_board()
 
-
-    else:
-        pass
+    return score_
+    
 
 
 def game():
-
     # Main game loop.
     os.system('clear')
     while True:
         clear_board()
         random_tile(2)
         print_board()
+        score_ = 0
         while game_end == "":
-            game_logic()
+            score_ += game_logic()
             game_state(16)
+            print(score_)
             if game_end == "win":
                 print("You have won 2048! Congratulations!")
                 ask = input("Do you want to continue? [y/n]")
@@ -234,6 +246,7 @@ def game():
                 break
             else:
                 exit()
+    
 
 
 board=[["","","",""],
