@@ -237,8 +237,9 @@ def game():
                 else:
                     exit()
         while game_end == "continue":
-            game_logic()
-            game_state(999)
+            score_ += game_logic()
+            game_state(9)
+            print(score_)
         while game_end == "lose":
             print("You lost...")
             ask = input("Do you wish to start a new game? [y/n] ")
