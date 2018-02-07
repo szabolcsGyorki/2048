@@ -127,7 +127,7 @@ def no_more_steps():
         b_row = i
         if board[b_row][b_col+1] == board[b_row][b_col] \
            or board[b_row][b_col+2] == board[b_row][b_col+1] or board[b_row][b_col+3] == board[b_row][b_col+2]:
-            if rvar is no False:
+            if rvar is not False:
                 rvar = False
             if rvar is False:
                 return rvar
@@ -136,7 +136,7 @@ def no_more_steps():
         b_col = i
         if board[b_row][b_col] == board[b_row+1][b_col] \
            or board[b_row+1][b_col] == board[b_row+2][b_col] or board[b_row+2][b_col] == board[b_row+3][b_col]:
-            if rvar is no False:
+            if rvar is not False:
                 rvar = False
             if rvar is False:
                 return rvar
