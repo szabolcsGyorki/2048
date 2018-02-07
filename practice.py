@@ -61,6 +61,9 @@ def print_board(board):
         print(row)
         print("     %s%s       %s%s       %s%s       %s%s       %s" 
               % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
+    print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
+    print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
+
 
 
 def clear_board():
@@ -100,7 +103,7 @@ def main():
     print_board(board)
     while True:
         direction = ['D', 'W', 'A', 'S']
-        rotate = input('enter A, W, D, S\n').upper()
+        rotate = input('Enter direction:\n').upper()
         r = direction.index(rotate)
         board = rotate_board(board, r)
         moving(board)
@@ -115,10 +118,6 @@ def moving(board):
     
     # The main script which does the moving and merging of the tiles according to the direction what the player entered.
     #score_ = 0
-    #print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
-    #print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
-    #ask = input("Enter direction:\n")
-    #if ask == "w":
     for i in range(4):
         b_row = i
         x = 0
