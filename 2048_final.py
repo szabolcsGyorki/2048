@@ -1,5 +1,6 @@
 import random
 import os
+from colored import fg, bg, attr
 from time import sleep
 
 
@@ -7,13 +8,59 @@ def print_board():
 
     # Prints the game board.
     os.system('clear')
-    print("      -----------------------------")
     for i in board:
         j = (i[0:])
-        row = '      | ' + str(j[0]).rjust(4) + ' | ' + str(j[1]).rjust(4) + ' | ' + str(j[2]).rjust(4) + ' | ' + str(j[3]).rjust(4) + ' | '
+        c = 0
+        clist = [250, 250, 250, 250]
+        for k in board:
+            j = (i[0:])
+            c = 0
+            for l in range(4):
+                if j[l] == 2:
+                    clist[l] = 240
+                if j[l] == 4:
+                    clist[l] = 235
+                if j[l] == 8:
+                    clist[l] = 212
+                if j[l] == 16: 
+                    clist[l] = 211
+                if j[l] == 32: 
+                    clist[l] = 210
+                if j[l] == 64: 
+                    clist[l] = 209
+                if j[l] == 128: 
+                    clist[l] = 216
+                if j[l] == 256: 
+                    clist[l] = 215
+                if j[l] == 512:
+                    clist[l] = 214
+                if j[l] == 1024: 
+                    clist[l] = 83
+                if j[l] == 2048: 
+                    clist[l] = 82
+                if j[l] == 4096: 
+                    clist[l] = 4
+                if j[l] == 8192: 
+                    clist[l] = 27
+                if j[l] == 16384:
+                    clist[l] = 21
+                if j[l] == 32768: 
+                    clist[l] = 20
+                if j[l] == 65536: 
+                    clist[l] = 19
+        c1 = clist[0]
+        c2 = clist[1]
+        c3 = clist[2]
+        c4 = clist[3]
+        row = '     %s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[1])) % (fg(255), bg(c2), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[2])) % (fg(255), bg(c3), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0))
+        print("     %s%s       %s%s       %s%s       %s%s       %s" \
+              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))       
         print(row)
-        print("      -----------------------------")
-
+        print("     %s%s       %s%s       %s%s       %s%s       %s" \
+              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
 
 def clear_board():
     
