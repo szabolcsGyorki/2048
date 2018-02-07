@@ -1,5 +1,7 @@
 import random
 import os
+from time import sleep
+
 
 def print_board():
 
@@ -11,6 +13,7 @@ def print_board():
         row = '      | ' + str(j[0]).rjust(4) + ' | ' + str(j[1]).rjust(4) + ' | ' + str(j[2]).rjust(4) + ' | ' + str(j[3]).rjust(4) + ' | '
         print(row)
         print("      -----------------------------")
+
 
 def clear_board():
     
@@ -128,6 +131,8 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row+1][b_col] = board[b_row+1][b_col], board[b_row][b_col]
+        print_board()
+        sleep(0.1)
         random_tile(1)
 
     if ask=="s":
@@ -152,6 +157,8 @@ def game_logic():
                 b_row = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
+        print_board()
+        sleep(0.1)
         random_tile(1)
 
 
@@ -177,6 +184,8 @@ def game_logic():
                 b_col = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col+1] = board[b_row][b_col+1], board[b_row][b_col]
+        print_board()
+        sleep(0.1)
         random_tile(1)
 
 
@@ -202,6 +211,8 @@ def game_logic():
                 b_col = j*-1
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
+        print_board()
+        sleep(0.1)
         random_tile(1)
 
     if ask == "x":
@@ -257,8 +268,8 @@ board=[["","","",""],
         ]   
 
 game_end = ""
-#b_row=0
-#b_col=0
+
+clear_board()
 print("""
         Welcome to the game '2048'!
 
