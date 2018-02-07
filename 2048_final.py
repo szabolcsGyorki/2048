@@ -74,9 +74,7 @@ def clear_board():
 
 def random_tile(n):
 
-    # Start a new game with two initial random numbers which are either 2 or 4.
-    # global game_end
-    # game_end = ""
+    # Inserts random number into a random tile.
     rand_n = 0
     while True:
         b_row = random.randrange(4)
@@ -96,16 +94,12 @@ def random_tile(n):
 def win(tile_n):
 
     # The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
-    board_temp = []
-    win_board = []
     for i in range(len(board)):
-        board_temp = board[i][:]
-        win_board[i:i] = board_temp
-    if tile_n in win_board:
-        global game_end
-        game_end = "win"
-        return tile_n in win_board
-    return tile_n not in win_board
+        if tile_n in board[i]:
+            global game_end
+            game_end = "win"
+            return True
+    return False
 
 
 def board_full():
@@ -143,21 +137,10 @@ def no_more_steps():
     return rvar
 
 
-def game_state(n):
-
-    # Sets the game condition to "lose" or "win" depending on the given criteria.
-    if board_full() and no_more_steps():
-        global game_end
-        game_end = "lose"
-        return
-    if win(n) is False:
-        game_end = "win"
-        return
-
-
 def game_logic():
-    score_ = 0
+    
     # The main script which does the moving and merging of the tiles according to the direction what the player entered.
+    score_ = 0
     print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
     print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
     ask = input("Enter direction:\n")
@@ -284,29 +267,33 @@ def game():
         random_tile(2)
         print_board()
         score_ = 0
-        while game_end == "":
+        while True:
             score_ += game_logic()
-            game_state(16)
             print(score_)
-            if game_end == "win":
+            if win(16):
                 print("You have won 2048! Congratulations!")
                 ask = input("Do you want to continue? [y/n]")
                 if ask == "y":
-                    global game_end
-                    game_end = "continue"
+                    break
                 else:
                     exit()
-        while game_end == "continue":
+            if board_full() and no_more_steps():
+                print("You lost...")
+                ask = input("Do you wish to start a new game? [y/n] ")
+                if ask == "y":
+                    break
+                else:
+                    exit()
+        while True:
             score_ += game_logic()
-            game_state(9)
             print(score_)
-        while game_end == "lose":
-            print("You lost...")
-            ask = input("Do you wish to start a new game? [y/n] ")
-            if ask == "y":
-                break
-            else:
-                exit()
+            if board_full() and no_more_steps():
+                print("You lost...")
+                ask = input("Do you wish to start a new game? [y/n] ")
+                if ask == "y":
+                    break
+                else:
+                    exit()
 
 
 board = [["", "", "", ""],
@@ -314,8 +301,6 @@ board = [["", "", "", ""],
          ["", "", "", ""],
          ["", "", "", ""]
          ]
-
-game_end = ""
 
 clear_board()
 print("""
