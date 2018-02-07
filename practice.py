@@ -63,6 +63,11 @@ def print_board(board):
               % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
 
 
+def clear_board():
+    board = [['']*4 for i in range(4)]
+    return board
+
+
 def rotate_board(board, r):
     # rotates the board
     while r > 0:
@@ -91,8 +96,6 @@ def random_tile(board, n):
 
 def main():
     board = [['']*4 for i in range(4)]
-    #board = [[2, 2, 8, 16], [2, 2, 8, 16], ["","","",""], [2, 4, 8, 16]]
-    #board = [[65536, 32768, 16384, 8192], [512, 1024, 2048, 4096], [256, 128, 64, 32], [2, 4, 8, 16]]
     random_tile(board, 2)
     print_board(board)
     while True:
@@ -139,6 +142,23 @@ def moving(board):
                 board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
 
 
+os.system('clear')
+print("""
+        Welcome to the game '2048'!
 
-main()
+        The goal of the game is to join the numbers and get the tile 2048.
+        Controls:
+        w - move the tiles up
+        s - move the tiles down
+        a - move the tiles left
+        d - move the tiles right
+        
+        x - quit the game
+        """
+      )
+start = input('Please enter "s" for start, or "x" for exit:\n')
+if start == 'x':
+    exit()
+if start == 's':
+    main()
 
