@@ -96,8 +96,6 @@ def win(tile_n):
     # The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
     for i in range(len(board)):
         if tile_n in board[i]:
-            global game_end
-            game_end = "win"
             return True
     return False
 
