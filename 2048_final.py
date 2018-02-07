@@ -22,31 +22,31 @@ def print_board():
                     clist[l] = 235
                 if j[l] == 8:
                     clist[l] = 212
-                if j[l] == 16: 
+                if j[l] == 16:
                     clist[l] = 211
-                if j[l] == 32: 
+                if j[l] == 32:
                     clist[l] = 210
-                if j[l] == 64: 
+                if j[l] == 64:
                     clist[l] = 209
-                if j[l] == 128: 
+                if j[l] == 128:
                     clist[l] = 216
-                if j[l] == 256: 
+                if j[l] == 256:
                     clist[l] = 215
                 if j[l] == 512:
                     clist[l] = 214
-                if j[l] == 1024: 
+                if j[l] == 1024:
                     clist[l] = 83
-                if j[l] == 2048: 
+                if j[l] == 2048:
                     clist[l] = 82
-                if j[l] == 4096: 
+                if j[l] == 4096:
                     clist[l] = 4
-                if j[l] == 8192: 
+                if j[l] == 8192:
                     clist[l] = 27
                 if j[l] == 16384:
                     clist[l] = 21
-                if j[l] == 32768: 
+                if j[l] == 32768:
                     clist[l] = 20
-                if j[l] == 65536: 
+                if j[l] == 65536:
                     clist[l] = 19
         c1 = clist[0]
         c2 = clist[1]
@@ -56,31 +56,33 @@ def print_board():
               + '%s%s %s{:>5} %s'.format(str(j[1])) % (fg(255), bg(c2), attr(1), attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[2])) % (fg(255), bg(c3), attr(1), attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0))
-        print("     %s%s       %s%s       %s%s       %s%s       %s" \
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))       
+        print("     %s%s       %s%s       %s%s       %s%s       %s"
+              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
         print(row)
-        print("     %s%s       %s%s       %s%s       %s%s       %s" \
+        print("     %s%s       %s%s       %s%s       %s%s       %s"
               % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
 
+
 def clear_board():
-    
-    #Clears the board.
+
+    # Clears the board.
     for i in range(len(board)):
         for j in range(4):
             board[i][j] = ""
     return board
 
+
 def random_tile(n):
 
     # Start a new game with two initial random numbers which are either 2 or 4.
-    #global game_end
-    #game_end = ""
+    # global game_end
+    # game_end = ""
     rand_n = 0
     while True:
-        b_row=random.randrange(4)
-        b_col=random.randrange(4)
-        if board[b_row][b_col]=="":
-            x=random.randrange(5)
+        b_row = random.randrange(4)
+        b_col = random.randrange(4)
+        if board[b_row][b_col] == "":
+            x = random.randrange(5)
             if x < 4:
                 board[b_row][b_col] = 2
             else:
@@ -89,74 +91,77 @@ def random_tile(n):
         if rand_n == n:
             print_board()
             break
-            
 
 
 def win(tile_n):
 
-    #The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
+    # The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
     board_temp = []
     win_board = []
     for i in range(len(board)):
         board_temp = board[i][:]
-        win_board[i:i]= board_temp
+        win_board[i:i] = board_temp
     if tile_n in win_board:
         global game_end
         game_end = "win"
         return tile_n in win_board
     return tile_n not in win_board
 
+
 def board_full():
 
-    #Checks if there is any empty tile on the board.
+    # Checks if there is any empty tile on the board.
     for i in range(len(board)):
         for j in range(4):
             if board[i][j] == "":
                 return False
     return True
 
+
 def no_more_steps():
 
-    #Checks if there are number pairs that can be merged or not.
-    b_col=0
+    # Checks if there are number pairs that can be merged or not.
+    b_col = 0
     rvar = True
     for i in range(4):
         b_row = i
-        if board[b_row][b_col+1] == board[b_row][b_col] or board[b_row][b_col+2] == board[b_row][b_col+1] or board[b_row][b_col+3] == board[b_row][b_col+2]:
-            if rvar != False:
+        if board[b_row][b_col+1] == board[b_row][b_col] \
+           or board[b_row][b_col+2] == board[b_row][b_col+1] or board[b_row][b_col+3] == board[b_row][b_col+2]:
+            if rvar is no False:
                 rvar = False
-            if rvar == False:
+            if rvar is False:
                 return rvar
-    b_row=0
+    b_row = 0
     for i in range(4):
         b_col = i
-        if board[b_row][b_col] == board[b_row+1][b_col] or board[b_row+1][b_col] == board[b_row+2][b_col] or board[b_row+2][b_col] == board[b_row+3][b_col]:
-            if rvar != False:
+        if board[b_row][b_col] == board[b_row+1][b_col] \
+           or board[b_row+1][b_col] == board[b_row+2][b_col] or board[b_row+2][b_col] == board[b_row+3][b_col]:
+            if rvar is no False:
                 rvar = False
-            if rvar == False:
+            if rvar is False:
                 return rvar
     return rvar
 
+
 def game_state(n):
 
-    #Sets the game condition to "lose" or "win" depending on the given criteria. 
-    if board_full() == True and no_more_steps() == True:
+    # Sets the game condition to "lose" or "win" depending on the given criteria.
+    if board_full() and no_more_steps():
         global game_end
         game_end = "lose"
         return
-    if win(n) == False:
+    if win(n) is False:
         game_end = "win"
         return
-    
 
-        
+
 def game_logic():
     score_ = 0
-    #The main script which does the moving and merging of the tiles according to the direction what the player entered. 
+    # The main script which does the moving and merging of the tiles according to the direction what the player entered.
     print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
     print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
-    ask=input("Enter direction:\n")
-    if ask=="w":
+    ask = input("Enter direction:\n")
+    if ask == "w":
         for i in range(4):
             b_col = i
             x = 0
@@ -168,12 +173,12 @@ def game_logic():
                     x += 1
             for j in range(3):
                 b_row = j
-                if board[b_row][b_col]==board[b_row+1][b_col]:
-                    board[b_row][b_col]*=2
+                if board[b_row][b_col] == board[b_row+1][b_col]:
+                    board[b_row][b_col] *= 2
                     if type(board[b_row][b_col]) is int:
                         score_ += board[b_row][b_col]
                         print(score_)
-                    board[b_row+1][b_col]=""
+                    board[b_row+1][b_col] = ""
             for j in range(3):
                 b_row = j
                 if board[b_row][b_col] == "":
@@ -182,25 +187,25 @@ def game_logic():
         sleep(0.1)
         random_tile(1)
 
-    if ask=="s":
+    if ask == "s":
         for i in range(4):
             b_col = i
             x = 0
             while x < 8:
-                for j in range(1,4):
+                for j in range(1, 4):
                     b_row = j
                     if board[b_row][b_col] == "":
                         board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
                     x += 1
-            for j in range(1,4):
+            for j in range(1, 4):
                 b_row = j
-                if board[b_row][b_col]==board[b_row-1][b_col]:
-                    board[b_row][b_col]*=2
+                if board[b_row][b_col] == board[b_row-1][b_col]:
+                    board[b_row][b_col] *= 2
                     if type(board[b_row][b_col]) is int:
                         score_ += board[b_row][b_col]
                         print(score_)
-                    board[b_row-1][b_col]=""
-            for j in range(1,4):
+                    board[b_row-1][b_col] = ""
+            for j in range(1, 4):
                 b_row = j
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
@@ -208,8 +213,7 @@ def game_logic():
         sleep(0.1)
         random_tile(1)
 
-
-    if ask=="a":
+    if ask == "a":
         for i in range(4):
             b_row = i
             x = 0
@@ -221,12 +225,12 @@ def game_logic():
                     x += 1
             for j in range(3):
                 b_col = j
-                if board[b_row][b_col]==board[b_row][b_col+1]:
-                    board[b_row][b_col]*=2
+                if board[b_row][b_col] == board[b_row][b_col+1]:
+                    board[b_row][b_col] *= 2
                     if type(board[b_row][b_col]) is int:
                         score_ += board[b_row][b_col]
                         print(score_)
-                    board[b_row][b_col+1]=""
+                    board[b_row][b_col+1] = ""
             for j in range(3):
                 b_col = j
                 if board[b_row][b_col] == "":
@@ -235,26 +239,25 @@ def game_logic():
         sleep(0.1)
         random_tile(1)
 
-
-    if ask=="d":
+    if ask == "d":
         for i in range(4):
             b_row = i
             x = 0
             while x < 8:
-                for j in range(1,4):
+                for j in range(1, 4):
                     b_col = j*-1
                     if board[b_row][b_col] == "":
                         board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
                     x += 1
-            for j in range(1,4):
+            for j in range(1, 4):
                 b_col = j*-1
-                if board[b_row][b_col]==board[b_row][b_col-1]:
-                    board[b_row][b_col]*=2
+                if board[b_row][b_col] == board[b_row][b_col-1]:
+                    board[b_row][b_col] *= 2
                     if type(board[b_row][b_col]) is int:
                         score_ += board[b_row][b_col]
                         print(score_)
-                    board[b_row][b_col-1]=""
-            for j in range(1,4):
+                    board[b_row][b_col-1] = ""
+            for j in range(1, 4):
                 b_col = j*-1
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
@@ -271,7 +274,6 @@ def game_logic():
         print_board()
 
     return score_
-    
 
 
 def game():
@@ -305,14 +307,13 @@ def game():
                 break
             else:
                 exit()
-    
 
 
-board=[["","","",""],
-       ["","","",""],
-       ["","","",""],
-       ["","","",""]
-        ]   
+board = [["", "", "", ""],
+         ["", "", "", ""],
+         ["", "", "", ""],
+         ["", "", "", ""]
+         ]
 
 game_end = ""
 
@@ -329,7 +330,7 @@ print("""
         
         x - quit the game
         """
-        )
+      )
 start = input('Please enter "s" for start, or "x" for exit:\n')
 if start == 'x':
     exit()
