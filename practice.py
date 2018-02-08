@@ -96,6 +96,7 @@ def random_tile(board, n):
         if rand_n == n:
             break
 
+
 def rotate_xtimes():
     rotate = input('Enter direction:\n').upper()
     direction = ['D', 'W', 'A', 'S']
@@ -173,14 +174,15 @@ def moving(board):
             if board[b_row][b_col] == board[b_row][b_col-1]:
                 board[b_row][b_col] *= 2
                 if type(board[b_row][b_col]) is int:
-                   score_ += board[b_row][b_col]
-                   print(score_)
+                    score_ += board[b_row][b_col]
+                    print(score_)
                 board[b_row][b_col-1] = ""
         for j in range(1, 4):
             b_col = j*-1
             if board[b_row][b_col] == "":
                 board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
     return score_
+
 
 def win(board, tile_n):
 
