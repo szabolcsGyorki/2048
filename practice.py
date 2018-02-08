@@ -5,13 +5,13 @@ from time import sleep
 
 
 def print_board(board):
-    
+
     # Prints the game board.
     os.system('clear')
     for i in board:
         j = (i[0:])
         c = 0
-        clist = [250,250,250,250]
+        clist = [250, 250, 250, 250]
         for k in board:
             j = (i[0:])
             c = 0
@@ -22,48 +22,47 @@ def print_board(board):
                     clist[l] = 235
                 if j[l] == 8:
                     clist[l] = 212
-                if j[l] == 16: 
+                if j[l] == 16:
                     clist[l] = 211
-                if j[l] == 32: 
+                if j[l] == 32:
                     clist[l] = 210
-                if j[l] == 64: 
+                if j[l] == 64:
                     clist[l] = 209
-                if j[l] == 128: 
+                if j[l] == 128:
                     clist[l] = 216
-                if j[l] == 256: 
+                if j[l] == 256:
                     clist[l] = 215
                 if j[l] == 512:
                     clist[l] = 214
-                if j[l] == 1024: 
+                if j[l] == 1024:
                     clist[l] = 83
-                if j[l] == 2048: 
+                if j[l] == 2048:
                     clist[l] = 82
-                if j[l] == 4096: 
+                if j[l] == 4096:
                     clist[l] = 4
-                if j[l] == 8192: 
+                if j[l] == 8192:
                     clist[l] = 27
                 if j[l] == 16384:
                     clist[l] = 21
-                if j[l] == 32768: 
+                if j[l] == 32768:
                     clist[l] = 20
-                if j[l] == 65536: 
+                if j[l] == 65536:
                     clist[l] = 19
         c1 = clist[0]
         c2 = clist[1]
         c3 = clist[2]
         c4 = clist[3]
-        row = '     %s%s %s{:>5} %s'.format(str(j[0])) %(fg(255), bg(c1), attr(1), attr(0)) \
-              + '%s%s %s{:>5} %s'.format(str(j[1])) %(fg(255), bg(c2), attr(1), attr(0)) \
-              + '%s%s %s{:>5} %s'.format(str(j[2])) %(fg(255), bg(c3), attr(1), attr(0)) \
-              + '%s%s %s{:>5} %s'.format(str(j[3])) %(fg(255), bg(c4), attr(1), attr(0))
-        print("     %s%s       %s%s       %s%s       %s%s       %s" 
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))       
+        row = '     %s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[1])) % (fg(255), bg(c2), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[2])) % (fg(255), bg(c3), attr(1), attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0))
+        print("     %s%s       %s%s       %s%s       %s%s       %s"
+              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
         print(row)
-        print("     %s%s       %s%s       %s%s       %s%s       %s" 
+        print("     %s%s       %s%s       %s%s       %s%s       %s"
               % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
     print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
     print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
-
 
 
 def clear_board(n):
@@ -97,7 +96,7 @@ def random_tile(board, n):
             break
 
 
-def  game_script(board):
+def game_script(board):
     direction = ['D', 'W', 'A', 'S']
     rotate = input('Enter direction:\n').upper()
     r = direction.index(rotate)
@@ -118,12 +117,12 @@ def main():
         random_tile(board, 1)
         print_board(board)
         if win(board, 16):
-                print("You have won 2048! Congratulations!")
-                ask = input("Do you want to continue? [y/n]")
-                if ask == "y":
-                    break
-                else:
-                    exit()
+            print("You have won 2048! Congratulations!")
+            ask = input("Do you want to continue? [y/n]")
+            if ask == "y":
+                break
+            else:
+                exit()
         if board_full(board) and no_more_steps(board):
             print("You lost...")
             ask = input("Do you wish to start a new game? [y/n] ")
@@ -147,9 +146,9 @@ def main():
 
 
 def moving(board):
-    
+
     # The main script which does the moving and merging of the tiles according to the direction what the player entered.
-    #score_ = 0
+    # score_ = 0
     for i in range(4):
         b_row = i
         x = 0
@@ -163,7 +162,7 @@ def moving(board):
             b_col = j*-1
             if board[b_row][b_col] == board[b_row][b_col-1]:
                 board[b_row][b_col] *= 2
-                #if type(board[b_row][b_col]) is int:
+                # if type(board[b_row][b_col]) is int:
                 #    score_ += board[b_row][b_col]
                 #    print(score_)
                 board[b_row][b_col-1] = ""
@@ -216,7 +215,8 @@ def no_more_steps(board):
                 return rvar
     return rvar
 
-def initial_game()
+
+def initial_game():
     os.system('clear')
     print("""
             Welcome to the game '2048'!
@@ -236,6 +236,6 @@ def initial_game()
         exit()
     if start == 's':
         main()
-    
+
 
 initial_game()
