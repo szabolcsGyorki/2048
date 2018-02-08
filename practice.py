@@ -2,13 +2,28 @@ from colored import fg, bg, attr
 import os
 import random
 from time import sleep
+import sys
+import tty
+import termios
+
+fd = sys.stdin.fileno()
+old_settings = termios.tcgetattr(fd)
+
+
+def getch():
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
 def print_board(board, score):
 
     # Prints the game board.
     os.system('clear')
-    print('score: ', score)
+    print("     {} {:20}%s".format("Score:", score) % bg(50), attr(0), "\n")
     for i in board:
         j = (i[0:])
         c = 0
@@ -98,19 +113,21 @@ def random_tile(board, n):
 
 
 def rotate_xtimes():
-    rotate = input('Enter direction:\n').upper()
-    direction = ['D', 'W', 'A', 'S']
+    print("Enter direction:\n")
+    rotate = getch()
+    print(rotate)
+    direction = ['d', 'w', 'a', 's']
     while rotate not in direction:
-        if rotate == 'X':
+        if rotate == 'x':
             exit()
-        elif rotate == "N":
+        elif rotate == "n":
             os.system('clear')
             print("New game loading...")
             sleep(1)
             main()
         else:
             print('Please enter D, W, A, or S')
-            rotate = input('Enter direction:\n').upper()
+            rotate = input('Enter direction:\n')
     r = direction.index(rotate)
     return r
 
