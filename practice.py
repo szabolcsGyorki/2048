@@ -216,24 +216,26 @@ def no_more_steps(board):
                 return rvar
     return rvar
 
+def initial_game()
+    os.system('clear')
+    print("""
+            Welcome to the game '2048'!
+    
+            The goal of the game is to join the numbers and get the tile 2048.
+            Controls:
+            w - move the tiles up
+            s - move the tiles down
+            a - move the tiles left
+            d - move the tiles right
+            
+            x - quit the game
+            """
+          )
+    start = input('Please enter "s" for start, or "x" for exit:\n')
+    if start == 'x':
+        exit()
+    if start == 's':
+        main()
+    
 
-os.system('clear')
-print("""
-        Welcome to the game '2048'!
-
-        The goal of the game is to join the numbers and get the tile 2048.
-        Controls:
-        w - move the tiles up
-        s - move the tiles down
-        a - move the tiles left
-        d - move the tiles right
-        
-        x - quit the game
-        """
-      )
-start = input('Please enter "s" for start, or "x" for exit:\n')
-if start == 'x':
-    exit()
-if start == 's':
-    main()
-
+initial_game()
