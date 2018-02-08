@@ -127,7 +127,7 @@ def rotate_xtimes():
             main()
         else:
             print('Please enter D, W, A, or S')
-            rotate = input('Enter direction:\n')
+            rotate = getch()
     r = direction.index(rotate)
     return r
 
@@ -157,7 +157,7 @@ def main():
             if win(board, 16):
                 os.system('clear')
                 print("You have won 2048! Congratulations!")
-                ask = input("Do you want to continue? [y/n]")
+                ask = input("If you want to continue, enter 'y' and press Enter!\n")
                 if ask == "n":
                     exit()
                 elif ask == "y":
@@ -166,7 +166,7 @@ def main():
         if board_full(board) and no_more_steps(board):
             os.system('clear')
             print("You lost...")
-            ask = input("Do you wish to start a new game? [y/n] ")
+            ask = input("To start a new game, enter 'y' and press Enter!\n")
             if ask == "y":
                 break
             else:
@@ -260,7 +260,7 @@ def initial_game():
             x - quit the game
             """
           )
-    start = input('Please enter "s" for start, or "x" for exit:\n')
+    start = input('Please enter "s" for start, or "x" for exit and press Enter!\n')
     if start == 'x':
         exit()
     if start == 's':
