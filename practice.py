@@ -238,4 +238,5 @@ def initial_game():
         main()
 
 
+# start game
 initial_game()
