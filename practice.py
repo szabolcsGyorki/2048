@@ -95,11 +95,21 @@ def random_tile(board, n):
         if rand_n == n:
             break
 
+def rotate_xtimes():
+    rotate = input('Enter direction:\n').upper()
+    direction = ['D', 'W', 'A', 'S']
+    while rotate not in direction:
+        if rotate == 'X':
+            exit()
+        else:
+            print('Please enter D, W, A, or S')
+            rotate = input('Enter direction:\n').upper()
+    r = direction.index(rotate)
+    return r
+
 
 def game_script(board):
-    direction = ['D', 'W', 'A', 'S']
-    rotate = input('Enter direction:\n').upper()
-    r = direction.index(rotate)
+    r = rotate_xtimes()
     board = rotate_board(board, r)
     moving(board)
     board = rotate_board(board, 4-r)
