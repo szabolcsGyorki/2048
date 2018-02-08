@@ -101,6 +101,11 @@ def rotate_xtimes():
     while rotate not in direction:
         if rotate == 'X':
             exit()
+        elif rotate == "N":
+            os.system('clear')
+            print("New game loading...")
+            sleep(1)
+            main()
         else:
             print('Please enter D, W, A, or S')
             rotate = input('Enter direction:\n').upper()
