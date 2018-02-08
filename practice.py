@@ -66,8 +66,8 @@ def print_board(board):
 
 
 
-def clear_board():
-    board = [['']*4 for i in range(4)]
+def clear_board(n):
+    board = [['']*n for i in range(n)]
     return board
 
 
@@ -97,21 +97,53 @@ def random_tile(board, n):
             break
 
 
+def  game_script(board):
+    direction = ['D', 'W', 'A', 'S']
+    rotate = input('Enter direction:\n').upper()
+    r = direction.index(rotate)
+    board = rotate_board(board, r)
+    moving(board)
+    board = rotate_board(board, 4-r)
+    return board
+
+
 def main():
-    board = [['']*4 for i in range(4)]
+    board = clear_board(4)
     random_tile(board, 2)
     print_board(board)
     while True:
-        direction = ['D', 'W', 'A', 'S']
-        rotate = input('Enter direction:\n').upper()
-        r = direction.index(rotate)
-        board = rotate_board(board, r)
-        moving(board)
-        board = rotate_board(board, 4-r)
+        board = game_script(board)
         print_board(board)
         sleep(0.1)
         random_tile(board, 1)
         print_board(board)
+        if win(board, 16):
+                print("You have won 2048! Congratulations!")
+                ask = input("Do you want to continue? [y/n]")
+                if ask == "y":
+                    break
+                else:
+                    exit()
+        if board_full(board) and no_more_steps(board):
+            print("You lost...")
+            ask = input("Do you wish to start a new game? [y/n] ")
+            if ask == "y":
+                break
+            else:
+                exit()
+    while True:
+        board = game_script(board)
+        print_board(board)
+        sleep(0.1)
+        random_tile(board, 1)
+        print_board(board)
+        if board_full(board) and no_more_steps(board):
+            print("You lost...")
+            ask = input("Do you wish to start a new game? [y/n] ")
+            if ask == "y":
+                break
+            else:
+                exit()
 
 
 def moving(board):
@@ -139,6 +171,50 @@ def moving(board):
             b_col = j*-1
             if board[b_row][b_col] == "":
                 board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
+
+
+def win(board, tile_n):
+
+    # The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
+    for i in range(len(board)):
+        if tile_n in board[i]:
+            return True
+    return False
+
+
+def board_full(board):
+
+    # Checks if there is any empty tile on the board.
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == "":
+                return False
+    return True
+
+
+def no_more_steps(board):
+
+    # Checks if there are number pairs that can be merged or not.
+    b_col = 0
+    rvar = True
+    for i in range(4):
+        b_row = i
+        if board[b_row][b_col+1] == board[b_row][b_col] \
+           or board[b_row][b_col+2] == board[b_row][b_col+1] or board[b_row][b_col+3] == board[b_row][b_col+2]:
+            if rvar is not False:
+                rvar = False
+            if rvar is False:
+                return rvar
+    b_row = 0
+    for i in range(4):
+        b_col = i
+        if board[b_row][b_col] == board[b_row+1][b_col] \
+           or board[b_row+1][b_col] == board[b_row+2][b_col] or board[b_row+2][b_col] == board[b_row+3][b_col]:
+            if rvar is not False:
+                rvar = False
+            if rvar is False:
+                return rvar
+    return rvar
 
 
 os.system('clear')
