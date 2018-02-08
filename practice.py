@@ -23,7 +23,13 @@ def print_board(board, score):
 
     # Prints the game board.
     os.system('clear')
-    print("     {} {:20}%s".format("Score:", score) % bg(50), attr(0), "\n")
+    print(
+          '%s' % (fg(130)) + u'    \u250F'+u'\u2501'*31+u'\u2513\n'
+          u'    \u2503'+'%s' % (attr(0))+' {} {:22} '.format('Score:', 2345)+'%s' % (fg(130))
+          + u'\u2503\n' '%s' % (fg(130)) + u'    \u2517'+u'\u2501'*31+u'\u251B\n'
+    )
+    print('%s' % (fg(130)) + u'    \u250F'+(u'\u2501'*7+u'\u2533')*3+u'\u2501'*7+u'\u2513'+'%s' % (attr(0)))
+    n = 0
     for i in board:
         j = (i[0:])
         c = 0
@@ -68,17 +74,44 @@ def print_board(board, score):
         c2 = clist[1]
         c3 = clist[2]
         c4 = clist[3]
-        row = '     %s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+        row = '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[1])) % (fg(255), bg(c2), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[2])) % (fg(255), bg(c3), attr(1), attr(0)) \
-              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0))
-        print("     %s%s       %s%s       %s%s       %s%s       %s"
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+        print(
+              '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+        )
         print(row)
-        print("     %s%s       %s%s       %s%s       %s%s       %s"
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
-    print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
-    print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
+        if n < 3:
+            print(
+                  '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+            )
+            print('%s' % (fg(130)) + u'    \u2523'+(u'\u2501'*7+u'\u254B')*3+u'\u2501'*7+u'\u252B'+'%s' % (attr(0)))
+        else:
+            print(
+                  '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+            )
+            print('%s' % (fg(130)) + u'    \u2517'+(u'\u2501'*7+u'\u253B')*3+u'\u2501'*7+u'\u251B'+'%s' % (attr(0)))
+        n += 1
+    print('\n{:<10} {:^20} {:>10}'.format('w = up', 'a = left', 'x = quit'))
+    print('{:<10} {:^22} {:>12}'.format('s = down', 'd = right', 'n = new game'))
 
 
 def clear_board(n):
@@ -119,6 +152,7 @@ def rotate_xtimes():
     direction = ['d', 'w', 'a', 's']
     while rotate not in direction:
         if rotate == 'x':
+            os.system('clear')
             exit()
         elif rotate == "n":
             os.system('clear')
@@ -157,8 +191,8 @@ def main():
             if win(board, 16):
                 os.system('clear')
                 print("You have won 2048! Congratulations!")
-                ask = input("If you want to continue, enter 'y' and press Enter!\n")
-                if ask == "n":
+                ask = input("Enter 'y' to continue, 'x' to quit and press Enter!\n")
+                if ask == "x":
                     exit()
                 elif ask == "y":
                     print_board(board, score)
