@@ -4,10 +4,11 @@ import random
 from time import sleep
 
 
-def print_board(board):
+def print_board(board, score):
 
     # Prints the game board.
     os.system('clear')
+    print('score: ', score)
     for i in board:
         j = (i[0:])
         c = 0
@@ -116,21 +117,25 @@ def rotate_xtimes():
 def game_script(board):
     r = rotate_xtimes()
     board = rotate_board(board, r)
-    moving(board)
+    score_ = moving(board)
     board = rotate_board(board, 4-r)
-    return board
+    return board, score_
 
 
 def main():
+    score = 0
     board = clear_board(4)
     random_tile(board, 2)
-    print_board(board)
+    print_board(board, score)
     while True:
-        board = game_script(board)
-        print_board(board)
+        board, score_ = game_script(board)
+        score += score_
+        print_board(board, score)
+        print(score)
         sleep(0.1)
         random_tile(board, 1)
-        print_board(board)
+        print_board(board, score)
+        print(score)
         if win(board, 256):
             os.system('clear')
             print("You have won 2048! Congratulations!")
@@ -138,13 +143,13 @@ def main():
             if ask == "n":
                 exit()
             elif ask == "y":
-                print_board(board)
+                print_board(board, score)
                 while True:
                     board = game_script(board)
-                    print_board(board)
+                    print_board(board, score)
                     sleep(0.1)
                     random_tile(board, 1)
-                    print_board(board)
+                    print_board(board, score)
                     if board_full(board) and no_more_steps(board):
                         os.system('clear')
                         print("You lost...")
@@ -167,7 +172,7 @@ def main():
 def moving(board):
 
     # The main script which does the moving and merging of the tiles according to the direction what the player entered.
-    # score_ = 0
+    score_ = 0
     for i in range(4):
         b_row = i
         x = 0
@@ -181,15 +186,15 @@ def moving(board):
             b_col = j*-1
             if board[b_row][b_col] == board[b_row][b_col-1]:
                 board[b_row][b_col] *= 2
-                # if type(board[b_row][b_col]) is int:
-                #    score_ += board[b_row][b_col]
-                #    print(score_)
+                if type(board[b_row][b_col]) is int:
+                   score_ += board[b_row][b_col]
+                   print(score_)
                 board[b_row][b_col-1] = ""
         for j in range(1, 4):
             b_col = j*-1
             if board[b_row][b_col] == "":
                 board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
-
+    return score_
 
 def win(board, tile_n):
 
