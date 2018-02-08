@@ -116,27 +116,31 @@ def main():
         sleep(0.1)
         random_tile(board, 1)
         print_board(board)
-        if win(board, 16):
+        if win(board, 256):
+            os.system('clear')
             print("You have won 2048! Congratulations!")
             ask = input("Do you want to continue? [y/n]")
-            if ask == "y":
-                break
-            else:
+            if ask == "n":
                 exit()
+            elif ask == "y":
+                print_board(board)
+                while True:
+                    board = game_script(board)
+                    print_board(board)
+                    sleep(0.1)
+                    random_tile(board, 1)
+                    print_board(board)
+                    if board_full(board) and no_more_steps(board):
+                        os.system('clear')
+                        print("You lost...")
+                        ask = input("Do you wish to start a new game? [y/n] ")
+                        if ask == "y":
+                            break
+                        else:
+                            exit()
+            break
         if board_full(board) and no_more_steps(board):
-            print("You lost...")
-            ask = input("Do you wish to start a new game? [y/n] ")
-            if ask == "y":
-                break
-            else:
-                exit()
-    while True:
-        board = game_script(board)
-        print_board(board)
-        sleep(0.1)
-        random_tile(board, 1)
-        print_board(board)
-        if board_full(board) and no_more_steps(board):
+            os.system('clear')
             print("You lost...")
             ask = input("Do you wish to start a new game? [y/n] ")
             if ask == "y":
@@ -235,7 +239,8 @@ def initial_game():
     if start == 'x':
         exit()
     if start == 's':
-        main()
+        while True:
+            main()
 
 
 # start game
