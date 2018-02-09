@@ -1,13 +1,35 @@
-import random
-import os
 from colored import fg, bg, attr
+import os
+import random
 from time import sleep
+import sys
+import tty
+import termios
+
+fd = sys.stdin.fileno()
+old_settings = termios.tcgetattr(fd)
 
 
-def print_board():
+def getch():
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
+
+
+def print_board(board, score):
 
     # Prints the game board.
     os.system('clear')
+    print(
+          '%s' % (fg(130)) + u'    \u250F'+u'\u2501'*31+u'\u2513\n'
+          u'    \u2503'+'%s' % (attr(0))+' {} {:22} '.format('Score:', 2345)+'%s' % (fg(130))
+          + u'\u2503\n' '%s' % (fg(130)) + u'    \u2517'+u'\u2501'*31+u'\u251B\n'
+    )
+    print('%s' % (fg(130)) + u'    \u250F'+(u'\u2501'*7+u'\u2533')*3+u'\u2501'*7+u'\u2513'+'%s' % (attr(0)))
+    n = 0
     for i in board:
         j = (i[0:])
         c = 0
@@ -52,27 +74,52 @@ def print_board():
         c2 = clist[1]
         c3 = clist[2]
         c4 = clist[3]
-        row = '     %s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+        row = '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[0])) % (fg(255), bg(c1), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[1])) % (fg(255), bg(c2), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
               + '%s%s %s{:>5} %s'.format(str(j[2])) % (fg(255), bg(c3), attr(1), attr(0)) \
-              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0))
-        print("     %s%s       %s%s       %s%s       %s%s       %s"
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) \
+              + '%s%s %s{:>5} %s'.format(str(j[3])) % (fg(255), bg(c4), attr(1), attr(0)) \
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+        print(
+              '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+              + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+        )
         print(row)
-        print("     %s%s       %s%s       %s%s       %s%s       %s"
-              % (fg(c1), bg(c1), fg(c2), bg(c2), fg(c3), bg(c3), fg(c4), bg(c4), attr(0)))
+        if n < 3:
+            print(
+                  '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+            )
+            print('%s' % (fg(130)) + u'    \u2523'+(u'\u2501'*7+u'\u254B')*3+u'\u2501'*7+u'\u252B'+'%s' % (attr(0)))
+        else:
+            print(
+                  '%s' % (fg(130))+u'    \u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c1), bg(c1), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c2), bg(c2), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c3), bg(c3), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0)) + '%s%s       %s' % (fg(c4), bg(c4), attr(0))
+                  + '%s' % (fg(130))+u'\u2503'+'%s' % (attr(0))
+            )
+            print('%s' % (fg(130)) + u'    \u2517'+(u'\u2501'*7+u'\u253B')*3+u'\u2501'*7+u'\u251B'+'%s' % (attr(0)))
+        n += 1
+    print('\n{:<10} {:^20} {:>10}'.format('w = up', 'a = left', 'x = quit'))
+    print('{:<10} {:^22} {:>12}'.format('s = down', 'd = right', 'n = new game'))
 
 
-def clear_board():
-
-    # Clears the board.
-    for i in range(len(board)):
-        for j in range(4):
-            board[i][j] = ""
+def clear_board(n):
+    board = [['']*n for i in range(n)]
     return board
 
 
-def random_tile(n):
+def random_tile(board, n):
 
     # Inserts random number into a random tile.
     rand_n = 0
@@ -87,11 +134,10 @@ def random_tile(n):
                 board[b_row][b_col] = 4
             rand_n += 1
         if rand_n == n:
-            print_board()
             break
 
 
-def win(tile_n):
+def win(board, tile_n):
 
     # The function checks if tile_n is in the table, if it is, it sets the game conditions to end the game as a winner.
     for i in range(len(board)):
@@ -100,17 +146,17 @@ def win(tile_n):
     return False
 
 
-def board_full():
+def board_full(board):
 
     # Checks if there is any empty tile on the board.
     for i in range(len(board)):
-        for j in range(4):
+        for j in range(len(board[i])):
             if board[i][j] == "":
                 return False
     return True
 
 
-def no_more_steps():
+def no_more_steps(board):
 
     # Checks if there are number pairs that can be merged or not.
     b_col = 0
@@ -135,187 +181,126 @@ def no_more_steps():
     return rvar
 
 
-def game_logic():
-    
+def rotate_xtimes():
+    print("Enter direction:\n")
+    rotate = getch()
+    print(rotate)
+    direction = ['d', 'w', 'a', 's']
+    while rotate not in direction:
+        if rotate == 'x':
+            os.system('clear')
+            exit()
+        elif rotate == "n":
+            os.system('clear')
+            print("New game loading...")
+            sleep(1)
+            main()
+        else:
+            print('Please enter D, W, A, or S')
+            rotate = getch()
+    r = direction.index(rotate)
+    return r
+
+
+def rotate_board(board, r):
+    # rotates the board
+    while r > 0:
+        board = list(map(list, zip(*board[::-1])))
+        r -= 1
+    return board
+
+
+def moving(board):
+
     # The main script which does the moving and merging of the tiles according to the direction what the player entered.
     score_ = 0
-    print("{:<10} {:^20} {:>10}".format("w = up", "a = left", "x = quit"))
-    print("{:<10} {:^22} {:>12}".format("s = down", "d = right", "n = new game"))
-    ask = input("Enter direction:\n")
-    if ask == "w":
-        for i in range(4):
-            b_col = i
-            x = 0
-            while x < 8:
-                for j in range(3):
-                    b_row = j
-                    if board[b_row][b_col] == "":
-                        board[b_row][b_col], board[b_row+1][b_col] = board[b_row+1][b_col], board[b_row][b_col]
-                    x += 1
-            for j in range(3):
-                b_row = j
-                if board[b_row][b_col] == board[b_row+1][b_col]:
-                    board[b_row][b_col] *= 2
-                    if type(board[b_row][b_col]) is int:
-                        score_ += board[b_row][b_col]
-                        print(score_)
-                    board[b_row+1][b_col] = ""
-            for j in range(3):
-                b_row = j
-                if board[b_row][b_col] == "":
-                    board[b_row][b_col], board[b_row+1][b_col] = board[b_row+1][b_col], board[b_row][b_col]
-        print_board()
-        sleep(0.1)
-        random_tile(1)
-
-    if ask == "s":
-        for i in range(4):
-            b_col = i
-            x = 0
-            while x < 8:
-                for j in range(1, 4):
-                    b_row = j
-                    if board[b_row][b_col] == "":
-                        board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
-                    x += 1
-            for j in range(1, 4):
-                b_row = j
-                if board[b_row][b_col] == board[b_row-1][b_col]:
-                    board[b_row][b_col] *= 2
-                    if type(board[b_row][b_col]) is int:
-                        score_ += board[b_row][b_col]
-                        print(score_)
-                    board[b_row-1][b_col] = ""
-            for j in range(1, 4):
-                b_row = j
-                if board[b_row][b_col] == "":
-                    board[b_row][b_col], board[b_row-1][b_col] = board[b_row-1][b_col], board[b_row][b_col]
-        print_board()
-        sleep(0.1)
-        random_tile(1)
-
-    if ask == "a":
-        for i in range(4):
-            b_row = i
-            x = 0
-            while x < 8:
-                for j in range(3):
-                    b_col = j
-                    if board[b_row][b_col] == "":
-                        board[b_row][b_col], board[b_row][b_col+1] = board[b_row][b_col+1], board[b_row][b_col]
-                    x += 1
-            for j in range(3):
-                b_col = j
-                if board[b_row][b_col] == board[b_row][b_col+1]:
-                    board[b_row][b_col] *= 2
-                    if type(board[b_row][b_col]) is int:
-                        score_ += board[b_row][b_col]
-                        print(score_)
-                    board[b_row][b_col+1] = ""
-            for j in range(3):
-                b_col = j
-                if board[b_row][b_col] == "":
-                    board[b_row][b_col], board[b_row][b_col+1] = board[b_row][b_col+1], board[b_row][b_col]
-        print_board()
-        sleep(0.1)
-        random_tile(1)
-
-    if ask == "d":
-        for i in range(4):
-            b_row = i
-            x = 0
-            while x < 8:
-                for j in range(1, 4):
-                    b_col = j*-1
-                    if board[b_row][b_col] == "":
-                        board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
-                    x += 1
-            for j in range(1, 4):
-                b_col = j*-1
-                if board[b_row][b_col] == board[b_row][b_col-1]:
-                    board[b_row][b_col] *= 2
-                    if type(board[b_row][b_col]) is int:
-                        score_ += board[b_row][b_col]
-                        print(score_)
-                    board[b_row][b_col-1] = ""
+    for i in range(4):
+        b_row = i
+        x = 0
+        while x < 8:
             for j in range(1, 4):
                 b_col = j*-1
                 if board[b_row][b_col] == "":
                     board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
-        print_board()
-        sleep(0.1)
-        random_tile(1)
-
-    if ask == "x":
-        exit()
-
-    if ask == "n":
-        clear_board()
-        random_tile(2)
-        print_board()
-
+                x += 1
+        for j in range(1, 4):
+            b_col = j*-1
+            if board[b_row][b_col] == board[b_row][b_col-1]:
+                board[b_row][b_col] *= 2
+                if type(board[b_row][b_col]) is int:
+                    score_ += board[b_row][b_col]
+                    print(score_)
+                board[b_row][b_col-1] = ""
+        for j in range(1, 4):
+            b_col = j*-1
+            if board[b_row][b_col] == "":
+                board[b_row][b_col], board[b_row][b_col-1] = board[b_row][b_col-1], board[b_row][b_col]
     return score_
 
 
-def game():
-    # Main game loop.
-    os.system('clear')
+def game_script(board):
+    r = rotate_xtimes()
+    board = rotate_board(board, r)
+    score_ = moving(board)
+    board = rotate_board(board, 4-r)
+    return board, score_
+
+
+def main():
+    score = 0
+    win_score = 1
+    board = clear_board(4)
+    random_tile(board, 2)
+    print_board(board, score)
     while True:
-        clear_board()
-        random_tile(2)
-        print_board()
-        score_ = 0
-        while True:
-            score_ += game_logic()
-            print(score_)
-            if win(16):
+        board, score_ = game_script(board)
+        score += score_
+        print_board(board, score)
+        sleep(0.1)
+        random_tile(board, 1)
+        print_board(board, score)
+        if win_score == 1:
+            if win(board, 16):
+                os.system('clear')
                 print("You have won 2048! Congratulations!")
-                ask = input("Do you want to continue? [y/n]")
-                if ask == "y":
-                    break
-                else:
+                ask = input("Enter 'y' to continue, 'x' to quit and press Enter!\n")
+                if ask == "x":
                     exit()
-            if board_full() and no_more_steps():
-                print("You lost...")
-                ask = input("Do you wish to start a new game? [y/n] ")
-                if ask == "y":
-                    break
-                else:
-                    exit()
+                elif ask == "y":
+                    print_board(board, score)
+                    win_score = 0
+        if board_full(board) and no_more_steps(board):
+            os.system('clear')
+            print("You lost...")
+            ask = input("To start a new game, enter 'y' and press Enter!\n")
+            if ask == "y":
+                break
+            else:
+                exit()
+
+
+def initial_game():
+    os.system('clear')
+    print("""
+            Welcome to the game '2048'!
+    
+            The goal of the game is to join the numbers and get the tile 2048.
+            Controls:
+            w - move the tiles up
+            s - move the tiles down
+            a - move the tiles left
+            d - move the tiles right
+            
+            x - quit the game
+            """
+          )
+    start = input('Please enter "s" for start, or "x" for exit and press Enter!\n')
+    if start == 'x':
+        exit()
+    if start == 's':
         while True:
-            score_ += game_logic()
-            print(score_)
-            if board_full() and no_more_steps():
-                print("You lost...")
-                ask = input("Do you wish to start a new game? [y/n] ")
-                if ask == "y":
-                    break
-                else:
-                    exit()
+            main()
 
 
-board = [["", "", "", ""],
-         ["", "", "", ""],
-         ["", "", "", ""],
-         ["", "", "", ""]
-         ]
-
-clear_board()
-print("""
-        Welcome to the game '2048'!
-
-        The goal of the game is to join the numbers and get the tile 2048.
-        Controls:
-        w - move the tiles up
-        s - move the tiles down
-        a - move the tiles left
-        d - move the tiles right
-        
-        x - quit the game
-        """
-      )
-start = input('Please enter "s" for start, or "x" for exit:\n')
-if start == 'x':
-    exit()
-if start == 's':
-    game()
+# start game
+initial_game()
